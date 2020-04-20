@@ -1,0 +1,51 @@
+body {
+    background-color: #F0F0F0;
+    /* background-color: #FCFCFC; */
+}
+
+.layui-bg-white {
+    background-color: #FFFFFF!important;
+    border: 1px solid #F0F0F0;
+    box-shadow: 0 10px 10px 0 #F0F0F0;
+}
+
+.layui-bg-white a {
+    color: #000000!important;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.layui-bg-side {
+    margin: 100px 0 0 20px;
+    background-color: #F0F0F0!important;
+}
+
+.layui-bg-side a {
+    color: #000000!important;
+    font-size: 12px;
+}
+
+.layui-nav-itemed>.layui-nav-child {
+    background-color: #F0F0F0!important;
+}
+
+.layui-nav-itemed>.layui-nav-child a {
+    color: #01AAED!important;
+    padding-left: 40px;
+}
+
+.layui-nav .layui-nav-more {
+    border-color: #000000 transparent transparent;
+}
+
+.layui-nav-itemed>a .layui-nav-more {
+    border-color: transparent transparent #000000;
+}
+
+.layui-nav-tree {
+    width: 250px;
+}
+
+.layui-body {
+    margin: 100px 0 0 75px;
+}
