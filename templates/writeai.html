@@ -26,15 +26,22 @@
                 <form class="layui-form" action="">
                     {% csrf_token %}
                     <div class="layui-form-item">
+                        <label class="layui-form-label"><b>Corpus:</b></label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="corpus" value="BK" title="百度百科" lay-filter="corpus" checked>
+                            <input type="radio" name="corpus" value="LLKT" title="乐乐课堂" lay-filter="corpus">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
                         <label class="layui-form-label" style="color: #c2c2c2;"><b>Enter text or</b></label>
                         <div class="layui-input-block">
                             <select name="example" lay-verify="required" lay-search lay-filter="example">
                                 <option value="">Choose an example ...</option>
                                 <option value="今天">今天</option>
-                                <option value="上海">上海</option>
-                                <option value="广州">广州</option>
+                                <option value="妈妈">妈妈</option>
+                                <option value="中国">中国</option>
                                 <option value="深圳">深圳</option>
-                                <option value="杭州">杭州</option>
+                                <option value="鲁迅">鲁迅</option>
                             </select>
                         </div>
                     </div>
@@ -47,7 +54,7 @@
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="formDemo"
+                            <button class="layui-btn" lay-submit lay-filter="subDemo"
                                 style="float: right;"><b>Run</b></button>
                         </div>
                     </div>
@@ -68,6 +75,43 @@
 
             form.on('select(example)', function (data) {
                 $('input[name=prompt]').val(data.value)
+            })
+
+            window.setExample = (obj) => {
+                var prompt = $("input[name=prompt]").val() + $(obj).html()
+                $("input[name=prompt]").val(prompt)
+
+                $('#submit-btn').trigger('click')
+            }
+
+            $("input[name=prompt]").mouseover(function () {
+                if ($(this).val() != '') {
+                    layer.msg($(this).val(), { icon: 1 })
+                }
+            })
+
+            form.on('submit(subDemo)', function (data) {
+                console.log('asdasd')
+                var index = layer.load(2)
+                $.ajax({
+                    url: '/tg/writeai/',
+                    type: 'POST',
+                    data: data.field,
+                    dataType: 'json',
+                    success: (result) => {
+                        // console.log(JSON.stringify(result.data))
+                        if (result.code === 0) {
+                            $('.writeai-show').empty()
+                            for (i = 0; i < result.count; i++) {
+                                innerHtml = `<p class="example">example ${i + 1}：</br>
+                                <a href="javascript:;" onclick="setExample(this)">${result.data[i]}</a></p>`
+                                $('.writeai-show').append(innerHtml)
+                            }
+                        }
+                        layer.close(index)
+                    }
+                })
+                return false
             })
         })
     </script>

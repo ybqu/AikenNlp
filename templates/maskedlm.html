@@ -29,20 +29,21 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label"><b>Language:</b></label>
                                 <div class="layui-input-block">
-                                    <input type="radio" name="language" value="zh-cn" title="中文" lay-filter="language"
+                                    <input type="radio" name="language" value="ZH" title="中文" lay-filter="language"
                                         checked>
-                                    <input type="radio" name="language" value="eng" title="英文" lay-filter="language">
+                                    <input type="radio" name="language" value="EN" title="英文" lay-filter="language">
                                 </div>
                             </div>
                             <div class="layui-form-item layui-form-text">
                                 <label class="layui-form-label"><b>Sentence:</b></label>
                                 <div class="layui-input-block">
-                                    <textarea name="sentence" class="layui-textarea">小明每天都要[MASK]超市。</textarea>
+                                    <textarea name="sentence" class="layui-textarea" required
+                                        lay-verify="required">小明每天都要[MASK]超市。</textarea>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <div class="layui-input-block">
-                                    <button class="layui-btn" lay-submit lay-filter="formDemo"
+                                    <button class="layui-btn" lay-submit lay-filter="subDemo"
                                         style="float: right;"><b>Run</b></button>
                                 </div>
                             </div>
@@ -52,7 +53,7 @@
                         <div style="height: 40px;"></div>
                         <div class="layui-card">
                             <div class="layui-card-header"><b>Mask Predictions:</b></div>
-                            <div class="layui-card-body">
+                            <div class="layui-card-body" id="prediction-show">
                             </div>
                         </div>
                     </div>
@@ -72,11 +73,37 @@
             form.render()
 
             form.on('radio(language)', function (data) {
-                if (data.value == 'zh-cn') {
+                if (data.value == 'ZH') {
                     $('textarea[name=sentence]').val('小明每天都要[MASK]超市。')
-                } else if (data.value == 'eng') {
+                } else if (data.value == 'EN') {
                     $('textarea[name=sentence]').val('The doctor ran to the emergency room to see [MASK].')
                 }
+            })
+
+            form.on('submit(subDemo)', function (data) {
+                var index = layer.load(1)
+                $.ajax({
+                    url: '/others/maskedlm/',
+                    type: 'POST',
+                    data: data.field,
+                    dataType: 'json',
+                    success: (result) => {
+                        if (result.code == 0) {
+                            $('#prediction-show').empty()
+                            indices = result.data['indices']
+                            values = result.data['values']
+                            for (i = 0; i < result.count; i++) {
+                                innerHtml = ``
+                                for (j = 0; j < indices[i].length; j++) {
+                                    innerHtml += `<p><b>${indices[i][j]}</b>  ${Number(values[i][j] * 100).toFixed(2)}%</p>`
+                                }
+                                $('#prediction-show').append(`<div class="layui-col-md${12 / result.count}">${innerHtml}</div>`)
+                            }
+                        }
+                        layer.close(index)
+                    }
+                })
+                return false
             })
         })
     </script>
