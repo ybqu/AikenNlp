@@ -1,0 +1,42 @@
+body {
+    margin: 0 20px;
+    padding: 5px;
+}
+
+.maskedlm-header {
+    margin-bottom: 20px;
+}
+
+.maskedlm-header h1 {
+    height: 50px;
+}
+
+.layui-input-block {
+    margin-left: 0;
+}
+
+.layui-form-label {
+    padding-left: 0;
+    text-align: left;
+    width: 100px;
+}
+
+.layui-card {
+    box-shadow: none;
+}
+
+.layui-card-header {
+    font-size: 18px;
+}
+
+.layui-card-body {
+    min-height: 230px;
+}
+
+.layui-textarea {
+    min-height: 200px;
+}
+
+.layui-textarea:hover {
+    box-shadow: 0 0 1px 1px #01AAED;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="{% static '/layui/css/layui.css' %}">
+    <link rel="stylesheet" href="{% static '/css/maskedlm.css' %}">
+</head>
+
+<body>
+    <div class="maskedlm-header">
+        <h1>Masked language modeling</h1>
+        <p>输入带有一个或多个[MASK]标记的文本，模型为每个[MASK]生成最可能的替换词，即根据[MASK]标签周围的上下文对[MASK]进行预测。使用模型：BERT</p>
+    </div>
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">Demo</li>
+            <li>Core code</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-row">
+                    <div class="layui-col-md5" style="padding: 10px;">
+                        <form class="layui-form" action="">
+                            {% csrf_token %}
+                            <div class="layui-form-item">
+                                <label class="layui-form-label"><b>Language:</b></label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="language" value="zh-cn" title="中文" lay-filter="language"
+                                        checked>
+                                    <input type="radio" name="language" value="eng" title="英文" lay-filter="language">
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label"><b>Sentence:</b></label>
+                                <div class="layui-input-block">
+                                    <textarea name="sentence" class="layui-textarea">小明每天都要[MASK]超市。</textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn" lay-submit lay-filter="formDemo"
+                                        style="float: right;"><b>Run</b></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="layui-col-md7" style="padding: 10px;">
+                        <div style="height: 40px;"></div>
+                        <div class="layui-card">
+                            <div class="layui-card-header"><b>Mask Predictions:</b></div>
+                            <div class="layui-card-body">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">代码展示</div>
+        </div>
+    </div>
+
+    <script src="{% static '/layui/layui.js' %}"></script>
+    <script>
+        layui.use(['form', 'element'], function () {
+            var form = layui.form
+                , element = layui.element
+                , $ = layui.$
+
+            form.render()
+
+            form.on('radio(language)', function (data) {
+                if (data.value == 'zh-cn') {
+                    $('textarea[name=sentence]').val('小明每天都要[MASK]超市。')
+                } else if (data.value == 'eng') {
+                    $('textarea[name=sentence]').val('The doctor ran to the emergency room to see [MASK].')
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>
