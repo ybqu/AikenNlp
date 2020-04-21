@@ -11,7 +11,7 @@
 '''
 
 # here put the import lib
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
 
 def index(request):
     if request.method == 'GET':

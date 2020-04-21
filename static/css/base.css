@@ -1,12 +1,7 @@
-body {
-    background-color: #F0F0F0;
-    /* background-color: #FCFCFC; */
-}
-
 .layui-bg-white {
     background-color: #FFFFFF!important;
     border: 1px solid #F0F0F0;
-    box-shadow: 0 10px 10px 0 #F0F0F0;
+    box-shadow: 0 5px 5px 0 #dddddd;
 }
 
 .layui-bg-white a {
@@ -17,7 +12,8 @@ body {
 
 .layui-bg-side {
     margin: 100px 0 0 20px;
-    background-color: #F0F0F0!important;
+    background-color: #FFFFFF!important;
+    /* border-right: 1px solid #F0F0F0; */
 }
 
 .layui-bg-side a {
@@ -26,7 +22,7 @@ body {
 }
 
 .layui-nav-itemed>.layui-nav-child {
-    background-color: #F0F0F0!important;
+    background-color: #FFFFFF!important;
 }
 
 .layui-nav-itemed>.layui-nav-child a {
@@ -48,4 +44,12 @@ body {
 
 .layui-body {
     margin: 100px 0 0 75px;
+}
+
+.layui-this>a {
+    background-color: #F0F0F0!important;
+}
+
+.layui-nav-tree .layui-nav-item a:hover {
+    background-color: #f2f2f2;
 }
