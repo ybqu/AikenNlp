@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="{% static '/layui/css/layui.css' %}">
+    <style>
+        .layui-card {
+            margin: 50px 30px;
+        }
+
+        .layui-card-header {
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layui-card">
+        <div class="layui-card-header">
+            <b>Aiken</b>NLP
+            <a href="https://github.com/ybqu/AikenNlp" style="font-size: 15px;color: #01AAED;">
+                <i class="layui-icon layui-icon-link"> [github]</i>
+            </a>
+        </div>
+        <div class="layui-card-body">
+            <ul class="layui-timeline">
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
+                        <h4 class="layui-timeline-title"><b>2020 / 4 / 21</b></h4>
+                        <ul>
+                            <li>添加 Long text generation (writeai)；</li>
+                            <li>添加 Masked language modeling；</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
+                        <h4 class="layui-timeline-title"><b>2020 / 4 / 20</b></h4>
+                        <ul>
+                            <li>创建网站；</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
+                        <h4 class="layui-timeline-title"><b>描述</b></h4>
+                        <ul>
+                            <li>NLP 相关 Demo 演示；</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
+                        <h4 class="layui-timeline-title"><b>Demo</b></h4>
+                        <ul>
+                            <li><b>Text Generation</b></li>
+                            <ul>
+                                <li>
+                                    <a href="/tg/writeai" target="bodyframe">Long text generation (writeai)</a>
+                                </li>
+                            </ul>
+                            <li><b>Metaphor Detection</b></li>
+                            <li><b>Others</b></li>
+                            <ul>
+                                <li>
+                                    <a href="/others/maskedlm" target="bodyframe">Masked language modeling</a>
+                                </li>
+                            </ul>
+                            <li><b>About</b></li>
+                            <ul>
+                                <li>
+                                    <a href="/about/website" target="bodyframe">About the website</a>
+                                </li>
+                                <li>
+                                    <a href="/about/author" target="bodyframe">About the author</a>
+                                </li>
+                            </ul>
+                        </ul>
+                    </div>
+                </li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
