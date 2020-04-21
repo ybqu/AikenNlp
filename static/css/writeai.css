@@ -1,0 +1,37 @@
+body {
+    margin: 0 20px;
+    padding: 5px;
+}
+
+.writeai-header {
+    margin-bottom: 20px;
+}
+
+.writeai-header h1 {
+    height: 50px;
+}
+
+.layui-input-block {
+    margin-left: 0;
+}
+
+.layui-form-label {
+    padding-left: 0;
+    text-align: left;
+    width: 100px;
+}
+
+.layui-form-select .layui-edge {
+    top: 75%;
+}
+
+.layui-form-select dl {
+    top: 78px;
+}
+.writeai-show {
+    padding: 10px;
+    height: 300px;
+    color: #979797;
+    font-size: 18px;
+    border-top: 5px solid #dddddd;
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="{% static '/layui/css/layui.css' %}">
+    <link rel="stylesheet" href="{% static '/css/writeai.css' %}">
+</head>
+
+<body>
+    <div class="writeai-header">
+        <h1>Long text generation (writeai)</h1>
+        <p>中文写作助手 -- 根据输入提示向下循环生成文本，单次生成5个例句。模型使用： <a
+                href="https://github.com/Morizeyao/GPT2-Chinese">GPT2-Chinese</a>，语料使用：乐乐课堂作文语料 / 百度百科语料 </p>
+    </div>
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">Demo</li>
+            <li>Core code</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form" action="">
+                    {% csrf_token %}
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="color: #c2c2c2;"><b>Enter text or</b></label>
+                        <div class="layui-input-block">
+                            <select name="example" lay-verify="required" lay-search lay-filter="example">
+                                <option value="">Choose an example ...</option>
+                                <option value="今天">今天</option>
+                                <option value="上海">上海</option>
+                                <option value="广州">广州</option>
+                                <option value="深圳">深圳</option>
+                                <option value="杭州">杭州</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label"><b>Prompt</b></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="prompt" required lay-verify="required" placeholder='E.g. 今天'
+                                autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="formDemo"
+                                style="float: right;"><b>Run</b></button>
+                        </div>
+                    </div>
+                </form>
+                <div class="writeai-show">
+                </div>
+            </div>
+            <div class="layui-tab-item">代码展示</div>
+        </div>
+    </div>
+
+    <script src="{% static '/layui/layui.js' %}"></script>
+    <script>
+        layui.use(['form', 'element'], function () {
+            var form = layui.form
+                , element = layui.element
+                , $ = layui.$
+
+            form.on('select(example)', function (data) {
+                $('input[name=prompt]').val(data.value)
+            })
+        })
+    </script>
+</body>
+
+</html>
