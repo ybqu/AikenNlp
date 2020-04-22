@@ -24,29 +24,28 @@
             <div class="layui-tab-item layui-show">
                 <h2 style="height: 50px; margin: 15px; line-height: 50px;">Input Words:</h2>
                 <form class="layui-form" action="">
+                    {% csrf_token %}
                     <div class="layui-form-item">
                         <label class="layui-form-label"><b>Target:</b></label>
                         <div class="layui-input-inline">
-                            <select name="target" lay-search>
+                            <select name="target" lay-search required lay-verify="required">
                                 <option value="">梦想</option>
-                                <option value="浙江">浙江省</option>
-                                <option value="你的工号">江西省</option>
-                                <option value="你最喜欢的老师">福建省</option>
+                                {% for target in targets %}
+                                <option value={{ target }}>{{ target }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <label class="layui-form-label"><b>Source:</b></label>
                         <div class="layui-input-inline">
-                            <select name="source" lay-search>
+                            <select name="source" lay-search required lay-verify="required">
                                 <option value="">星星</option>
-                                <option value="杭州">杭州</option>
-                                <option value="宁波">宁波</option>
-                                <option value="温州">温州</option>
-                                <option value="温州">台州</option>
-                                <option value="温州">绍兴</option>
+                                {% for source in sources %}
+                                <option value={{ source }}>{{ source }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="layui-inout-inline">
-                            <button class="layui-btn" lay-submit="" lay-filter="demo2"><b>Interpret</b></button>
+                            <button class="layui-btn" lay-submit lay-filter="interpret"><b>Interpret</b></button>
                         </div>
                     </div>
                 </form>
@@ -77,11 +76,11 @@
 
             table.render({
                 elem: '#tab-interpretation'
+                , id: 'interpretation'
                 , height: 50
                 , skin: 'line'
                 , even: true
                 , method: 'post'
-                , url: '/metaphor/interpretation'
                 , cols: [[
                     { type: 'numbers' }
                     , { field: 'target', title: 'Target', minWidth: 80 }
@@ -89,7 +88,15 @@
                     , { field: 'attribute', title: 'Attribute', minWidth: 80 }
                     , { field: 'interpretation', title: 'Metaphor Interpretation' }
                 ]]
-            });
+            })
+
+            form.on('submit(interpret)', function (data) {
+                table.reload('interpretation', {
+                    url: '/metaphor/interpretation/'
+                    , where: data.field
+                });
+                return false
+            })
         })
     </script>
 </body>

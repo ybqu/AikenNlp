@@ -24,17 +24,18 @@
             <div class="layui-tab-item layui-show">
                 <h2 style="height: 50px; margin: 15px; line-height: 50px;">Input Sentence:</h2>
                 <form class="layui-form" action="">
+                    {% csrf_token %}
                     <div class="layui-form-item">
-                        <div class="layui-input-inline" style="width: 700px;padding-left:50px";>
-                            <select name="sentence" lay-search>
+                        <div class="layui-input-inline" style="width: 700px;padding-left:50px" ;>
+                            <select name="sentence" lay-search required lay-verify="required">
                                 <option value="">秋风吹过的稻子就像大海一样连绵起伏。</option>
-                                <option value="浙江">浙江省</option>
-                                <option value="你的工号">江西省</option>
-                                <option value="你最喜欢的老师">福建省</option>
+                                {% for sen in sentens %}
+                                <option value={{ sen }}>{{ sen }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="layui-inout-inline">
-                            <button class="layui-btn" lay-submit="" lay-filter="demo2"><b>Extract</b></button>
+                            <button class="layui-btn" lay-submit="" lay-filter="extract"><b>Extract</b></button>
                         </div>
                     </div>
                 </form>
@@ -65,11 +66,12 @@
 
             table.render({
                 elem: '#tab-simile'
+                , id: 'simile'
                 , height: 50
                 , skin: 'line'
                 , even: true
                 , method: 'post'
-                , url: '/metaphor/simile'
+                // , url: '/metaphor/simile/'
                 , cols: [[
                     { type: 'numbers' }
                     , { field: 'sentence', title: 'Sentence', minWidth: 150 }
@@ -78,7 +80,15 @@
                     , { field: 'adj', title: 'Adj-pro', minWidth: 80 }
                     , { field: 'verb', title: 'Verb-pro', minWidth: 80 }
                 ]]
-            });
+            })
+
+            form.on('submit(extract)', function (data) {
+                table.reload('simile', {
+                    url: '/metaphor/simile/'
+                    , where: data.field
+                })
+                return false
+            })
         })
     </script>
 </body>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,29 +24,28 @@
             <div class="layui-tab-item layui-show">
                 <h2 style="height: 50px; margin: 15px; line-height: 50px;">Input Words:</h2>
                 <form class="layui-form" action="">
+                    {% csrf_token %}
                     <div class="layui-form-item">
                         <label class="layui-form-label"><b>Target:</b></label>
                         <div class="layui-input-inline">
-                            <select name="target" lay-search>
+                            <select name="target" lay-search required lay-verify="required">
                                 <option value="">梦想</option>
-                                <option value="浙江">浙江省</option>
-                                <option value="你的工号">江西省</option>
-                                <option value="你最喜欢的老师">福建省</option>
+                                {% for target in targets %}
+                                <option value={{ target }}>{{ target }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <label class="layui-form-label"><b>Attribute:</b></label>
                         <div class="layui-input-inline">
-                            <select name="attribute" lay-search>
+                            <select name="attribute" lay-search required lay-verify="required">
                                 <option value="">发光</option>
-                                <option value="杭州">杭州</option>
-                                <option value="宁波">宁波</option>
-                                <option value="温州">温州</option>
-                                <option value="温州">台州</option>
-                                <option value="温州">绍兴</option>
+                                {% for attr in attributions %}
+                                <option value={{ attr }}>{{ attr }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="layui-inout-inline">
-                            <button class="layui-btn" lay-submit="" lay-filter="demo2"><b>Generate</b></button>
+                            <button class="layui-btn" lay-submit="" lay-filter="generation"><b>Generate</b></button>
                         </div>
                     </div>
                 </form>
@@ -76,11 +76,12 @@
 
             table.render({
                 elem: '#tab-generation'
+                , id: 'generation'
                 , height: 50
                 , skin: 'line'
                 , even: true
                 , method: 'post'
-                , url: '/metaphor/generation'
+                // , url: '/metaphor/generation'
                 , cols: [[
                     { type: 'numbers' }
                     , { field: 'target', title: 'Target', minWidth: 80 }
@@ -88,7 +89,15 @@
                     , { field: 'source', title: 'Source', minWidth: 80 }
                     , { field: 'sentences', title: 'Metaphor Sentences' }
                 ]]
-            });
+            })
+
+            form.on('submit(generation)', function (data) {
+                table.reload('generation', {
+                    url: '/metaphor/generation/'
+                    , where: data.field
+                })
+                return false
+            })
         })
     </script>
 </body>
