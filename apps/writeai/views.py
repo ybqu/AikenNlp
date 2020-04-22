@@ -6,7 +6,7 @@ from django.shortcuts import render, HttpResponse
 
 def writeai(request):
     if request.method == 'GET':
-        return render(request, 'writeai.html')
+        return render(request, 'textgeneration/writeai.html')
     elif request.method == 'POST':
         corpus = request.POST.get('corpus')
         prompt = request.POST.get('prompt')

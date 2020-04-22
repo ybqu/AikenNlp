@@ -54,7 +54,7 @@
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="subDemo"
+                            <button id="submit-btn" class="layui-btn" lay-submit lay-filter="subDemo"
                                 style="float: right;"><b>Run</b></button>
                         </div>
                     </div>
@@ -91,7 +91,6 @@
             })
 
             form.on('submit(subDemo)', function (data) {
-                console.log('asdasd')
                 var index = layer.load(2)
                 $.ajax({
                     url: '/tg/writeai/',
