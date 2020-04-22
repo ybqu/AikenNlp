@@ -1,0 +1,32 @@
+body {
+    margin: 0 20px;
+    padding: 5px;
+}
+
+.generation-header {
+    margin-bottom: 20px;
+}
+
+.generation-header h1 {
+    height: 50px;
+}
+
+.layui-tab-content .layui-btn {
+    margin-left: 50px;
+}
+
+.layui-tab-content h2 {
+    font-weight: bold;
+    color: #777777;
+}
+
+.layui-card {
+    box-shadow: none;
+    border-top: 5px solid #dddddd;
+}
+
+.layui-card-header {
+    padding: 10px 25px;
+    line-height: 25px;
+    height: 50px;
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="{% static '/layui/css/layui.css' %}">
+    <link rel="stylesheet" href="{% static '/css/interpretation.css' %}">
+</head>
+
+<body>
+    <div class="interpretation-header">
+        <h1>Metaphor Interpretation</h1>
+        <p>隐喻解释 -- </p>
+    </div>
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">Demo</li>
+            <li>Core code</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <h2 style="height: 50px; margin: 15px; line-height: 50px;">Input Words:</h2>
+                <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>Target:</b></label>
+                        <div class="layui-input-inline">
+                            <select name="target" lay-search>
+                                <option value="">梦想</option>
+                                <option value="浙江">浙江省</option>
+                                <option value="你的工号">江西省</option>
+                                <option value="你最喜欢的老师">福建省</option>
+                            </select>
+                        </div>
+                        <label class="layui-form-label"><b>Source:</b></label>
+                        <div class="layui-input-inline">
+                            <select name="source" lay-search>
+                                <option value="">星星</option>
+                                <option value="杭州">杭州</option>
+                                <option value="宁波">宁波</option>
+                                <option value="温州">温州</option>
+                                <option value="温州">台州</option>
+                                <option value="温州">绍兴</option>
+                            </select>
+                        </div>
+                        <div class="layui-inout-inline">
+                            <button class="layui-btn" lay-submit="" lay-filter="demo2"><b>Interpret</b></button>
+                        </div>
+                    </div>
+                </form>
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <h2>Generated Interpret Sentences</h2>
+                        <span> -- Here are the top 20 predictions</span>
+                    </div>
+                    <div class="layui-card-body">
+                        <table class="layui-hide" id="tab-interpretation"></table>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">代码展示</div>
+        </div>
+    </div>
+
+    <script src="{% static '/layui/layui.js' %}"></script>
+
+    <script>
+        layui.use(['form', 'element', 'table'], function () {
+            var form = layui.form
+                , element = layui.element
+                , $ = layui.$
+                , table = layui.table
+
+            form.render()
+
+            table.render({
+                elem: '#tab-interpretation'
+                , height: 50
+                , skin: 'line'
+                , even: true
+                , method: 'post'
+                , url: '/metaphor/interpretation'
+                , cols: [[
+                    { type: 'numbers' }
+                    , { field: 'target', title: 'Target', minWidth: 80 }
+                    , { field: 'source', title: 'Source', minWidth: 80 }
+                    , { field: 'attribute', title: 'Attribute', minWidth: 80 }
+                    , { field: 'interpretation', title: 'Metaphor Interpretation' }
+                ]]
+            });
+        })
+    </script>
+</body>
+
+</html>
