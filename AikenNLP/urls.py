@@ -18,7 +18,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index),
-    path('others/', include('apps.maskedlm.urls')),
     path('tg/', include('apps.writeai.urls')),
+    path('metaphor/', include('apps.metaphor.urls')),
+    path('others/', include('apps.maskedlm.urls')),
     path('about/', include('apps.about.urls')),
 ]
