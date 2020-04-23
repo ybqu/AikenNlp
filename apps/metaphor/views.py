@@ -1,5 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from .MetaphorModel import showData
+from .models import Interpretation, Generation
+import sys
+import json
+
+sys.path.append('../../')
+from util import Util
 
 # Create your views here.
 def interpretation(request):
@@ -13,8 +19,10 @@ def interpretation(request):
     elif request.method == 'POST':
         target = request.POST.get('target')
         source = request.POST.get('source')
-        print(target)
-        print(source)
+
+        data = Interpretation.interprete(target, source)
+
+        return HttpResponse(json.dumps(Util.returnData(0, '', len(data), data)))
 
 def generation(request):
     """ 隐喻生成 """
@@ -26,9 +34,10 @@ def generation(request):
         })
     elif request.method == 'POST':
         target = request.POST.get('target')
-        attribute = request.POST.get('attribute')
-        print(target)
-        print(attribute)
+        attribution = request.POST.get('attribution')
+
+        data = Generation.generation(target, attribution)
+        return HttpResponse(json.dumps(Util.returnData(0, '', len(data), data)))
 
 def simile(request):
     """ 明喻提取 """
@@ -36,5 +45,9 @@ def simile(request):
         return render(request, 'metaphor/simile.html')
     elif request.method == 'POST':
         sentence = request.POST.get('sentence')
+
+        data = []
+
+    return HttpResponse(json.dumps(Util.returnData(0, '', len(data), data)))
     
     # print(sentence)

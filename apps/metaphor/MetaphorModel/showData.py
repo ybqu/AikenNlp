@@ -18,6 +18,4 @@ def get_entities_properties():
         target_list.append(line_parts[0])
         source_list.append(line_parts[1])
         properties_list.append(line_parts[2])
-    return target_list[:50], source_list[:50], properties_list[:50]
-
-
+    return target_list, source_list, properties_list

@@ -1,4 +1,4 @@
-from metaphor_web.MetaphorModel import Config
+from . import Config
 from .transHmeta import transHmeta
 import os
 
