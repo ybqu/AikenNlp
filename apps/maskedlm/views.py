@@ -1,8 +1,11 @@
 import json
+import sys
 from django.shortcuts import render, HttpResponse
 from .models import Bert_Masked
 
 # Create your views here.
+sys.path.append('../../')
+from util import Util
 
 def maskedlm(request):
     if request.method == 'GET':
@@ -13,9 +16,4 @@ def maskedlm(request):
 
         result = Bert_Masked.get_prediction(language, sentence)
 
-        return HttpResponse(json.dumps({
-            'code': 0,
-            'msg': '',
-            'count': result[1],
-            'data': result[0]
-        }))
+        return HttpResponse(json.dumps(Util.returnData(0, '', result[1], result[0])))

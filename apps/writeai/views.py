@@ -1,8 +1,11 @@
 import json
+import sys
 from .models import Writeai
 from django.shortcuts import render, HttpResponse
 
 # Create your views here.
+sys.path.append('../../')
+from util import Util
 
 def writeai(request):
     if request.method == 'GET':
@@ -13,9 +16,4 @@ def writeai(request):
 
         result = Writeai.generate(prefix=prompt, corpus = corpus, length=80)
 
-        return HttpResponse(json.dumps({
-            'code': 0,
-            'msg': '',
-            'count': len(result),
-            'data': result
-        }))
+        return HttpResponse(json.dumps(Util.returnData(0, '', len(result), result)))
