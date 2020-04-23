@@ -89,13 +89,13 @@
             })
 
             form.on('submit(interpret)', function (data) {
-                var index = layer.load(2)
+                // var index = layer.load(2)
                 table.reload('interpretation', {
                     url: '/metaphor/interpretation/'
                     , method: 'post'
                     , where: data.field
                 })
-                layer.close(index)
+                // layer.close(index)
                 return false
             })
         })
