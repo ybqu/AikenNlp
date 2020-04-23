@@ -77,24 +77,25 @@
             table.render({
                 elem: '#tab-interpretation'
                 , id: 'interpretation'
-                , height: 50
                 , skin: 'line'
                 , even: true
-                , method: 'post'
                 , cols: [[
                     { type: 'numbers' }
-                    , { field: 'target', title: 'Target', minWidth: 80 }
-                    , { field: 'source', title: 'Source', minWidth: 80 }
-                    , { field: 'attribute', title: 'Attribute', minWidth: 80 }
+                    , { field: 'target', title: 'Target', minWidth: 50 }
+                    , { field: 'source', title: 'Source', minWidth: 50 }
+                    , { field: 'attribution', title: 'Attribution', minWidth: 50 }
                     , { field: 'interpretation', title: 'Metaphor Interpretation' }
                 ]]
             })
 
             form.on('submit(interpret)', function (data) {
+                var index = layer.load(2)
                 table.reload('interpretation', {
                     url: '/metaphor/interpretation/'
+                    , method: 'post'
                     , where: data.field
-                });
+                })
+                layer.close(index)
                 return false
             })
         })

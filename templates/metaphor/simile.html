@@ -67,11 +67,8 @@
             table.render({
                 elem: '#tab-simile'
                 , id: 'simile'
-                , height: 50
                 , skin: 'line'
                 , even: true
-                , method: 'post'
-                // , url: '/metaphor/simile/'
                 , cols: [[
                     { type: 'numbers' }
                     , { field: 'sentence', title: 'Sentence', minWidth: 150 }
@@ -85,6 +82,7 @@
             form.on('submit(extract)', function (data) {
                 table.reload('simile', {
                     url: '/metaphor/simile/'
+                    , method: 'post'
                     , where: data.field
                 })
                 return false

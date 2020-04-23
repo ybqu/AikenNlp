@@ -37,7 +37,7 @@
                         </div>
                         <label class="layui-form-label"><b>Attribute:</b></label>
                         <div class="layui-input-inline">
-                            <select name="attribute" lay-search required lay-verify="required">
+                            <select name="attribution" lay-search required lay-verify="required">
                                 <option value="">发光</option>
                                 {% for attr in attributions %}
                                 <option value={{ attr }}>{{ attr }}</option>
@@ -77,25 +77,25 @@
             table.render({
                 elem: '#tab-generation'
                 , id: 'generation'
-                , height: 50
                 , skin: 'line'
                 , even: true
-                , method: 'post'
-                // , url: '/metaphor/generation'
                 , cols: [[
                     { type: 'numbers' }
                     , { field: 'target', title: 'Target', minWidth: 80 }
-                    , { field: 'attribute', title: 'Attribute', minWidth: 80 }
+                    , { field: 'attribution', title: 'Attribution', minWidth: 80 }
                     , { field: 'source', title: 'Source', minWidth: 80 }
                     , { field: 'sentences', title: 'Metaphor Sentences' }
                 ]]
             })
 
             form.on('submit(generation)', function (data) {
+                var index = layer.load(2)
                 table.reload('generation', {
                     url: '/metaphor/generation/'
+                    , method: 'post'
                     , where: data.field
                 })
+                layer.close(index)
                 return false
             })
         })
