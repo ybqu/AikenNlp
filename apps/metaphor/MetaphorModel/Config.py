@@ -1,6 +1,6 @@
 from sklearn.metrics import f1_score, classification_report
 
-from . import file_utils
+from . import fileUtils
 import torch.optim as optim
 import sys
 import random
@@ -46,14 +46,14 @@ class Config(object):
         self.norm_flag = False
 
     def _init(self):
-        self.entity2id, self.id2entity, self.entid2tags = file_utils.generate_entity_property_idx(self.entityPath)
-        self.property2id, self.id2property, self.proid2tags = file_utils.generate_entity_property_idx(self.propertyPath)
+        self.entity2id, self.id2entity, self.entid2tags = fileUtils.generate_entity_property_idx(self.entityPath)
+        self.property2id, self.id2property, self.proid2tags = fileUtils.generate_entity_property_idx(self.propertyPath)
 
         self.entityTotal = len(self.entity2id)
         self.propertyTotal = len(self.property2id)
 
-        self.test_entity_candidate_ids = file_utils.read_sample_candidates(self.test_entity_candi_path, self.entity2id)
-        self.test_attr_candidate_ids = file_utils.read_sample_candidates(self.test_attr_candi_path, self.property2id)
+        self.test_entity_candidate_ids = fileUtils.read_sample_candidates(self.test_entity_candi_path, self.entity2id)
+        self.test_attr_candidate_ids = fileUtils.read_sample_candidates(self.test_attr_candi_path, self.property2id)
 
     def set_cuda(self, cuda):
         self.use_cuda = cuda
@@ -147,19 +147,19 @@ class Config(object):
 
 
     def metaphor_interpret(self, target, source):
-        self.load_model(514)
+        # self.load_model(514)
         if target not in self.entity2id.keys() or source not in self.entity2id.keys():
             return None, None
         triplet = [self.entity2id[target], self.entity2id[source], -1]
 
         score_dic = {}
-        test_triplet_list = file_utils.get_test_candidates(triplet, self.test_entity_candidate_ids,  self.test_attr_candidate_ids, 'p')
+        test_triplet_list = fileUtils.get_test_candidates(triplet, self.test_entity_candidate_ids,  self.test_attr_candidate_ids, 'p')
 
         for t in test_triplet_list:
             t = t.view(len(t), 1)
             score = self.trainModel.predict(t[0], t[1], t[2])
             score_dic[t] = score.data
-        score_list = file_utils.Counter(score_dic).most_common()
+        score_list = fileUtils.Counter(score_dic).most_common()
         score_list.reverse()
 
         pre_properties = []
@@ -174,18 +174,18 @@ class Config(object):
         return pre_properties, metaphor_inter
 
     def metaphor_generate(self, target, property):
-        self.load_model(514)
+        # self.load_model(514)
         if target not in self.entity2id.keys() or property not in self.property2id.keys():
             return None, None
         triplet = [self.entity2id[target], -1, self.property2id[property]]
         score_dic = {}
-        test_triplet_list = file_utils.get_test_candidates(triplet, self.test_entity_candidate_ids,  self.test_attr_candidate_ids, 't')
+        test_triplet_list = fileUtils.get_test_candidates(triplet, self.test_entity_candidate_ids,  self.test_attr_candidate_ids, 't')
 
         for t in test_triplet_list:
             t = t.view(len(t), 1)
             score = self.trainModel.predict(t[0], t[1], t[2])
             score_dic[t] = score.data
-        score_list = file_utils.Counter(score_dic).most_common()
+        score_list = fileUtils.Counter(score_dic).most_common()
         score_list.reverse()
 
         pre_sources = []
