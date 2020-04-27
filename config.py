@@ -17,6 +17,8 @@ from transformers import BertConfig
 from transformers import BertTokenizer, BertModel, BertForMaskedLM
 from transformers import GPT2LMHeadModel
 
+os.environ['CUDA_VISIBLE_DEVICES']='1'
+
 
 """ 1. 加载 Bert 模型 """
 
