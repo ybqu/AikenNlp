@@ -6,7 +6,7 @@ filepath = os.path.dirname(os.path.abspath(__file__))
 
 def get_entities_properties():
     """
-    ? 获取 (target source property)  
+    ? 获取 (target source property)  k
     """
     source_list = []
     target_list = []
