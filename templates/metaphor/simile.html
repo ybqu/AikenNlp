@@ -29,7 +29,7 @@
                         <div class="layui-input-inline" style="width: 700px;padding-left:50px" ;>
                             <select name="sentence" lay-search required lay-verify="required">
                                 <option value="">秋风吹过的稻子就像大海一样连绵起伏。</option>
-                                {% for sen in sentens %}
+                                {% for sen in sentences %}
                                 <option value={{ sen }}>{{ sen }}</option>
                                 {% endfor %}
                             </select>
@@ -44,8 +44,8 @@
                         <h2>Extracted Simile Components</h2>
                         <span> -- Here are four simile components</span>
                     </div>
-                    <div class="layui-card-body">
-                        <table class="layui-hide" id="tab-simile"></table>
+                    <div class="layui-card-body" id="simile-show">
+                        <!-- <table class="layui-hide" id="tab-simile"></table> -->
                     </div>
                 </div>
             </div>
@@ -64,26 +64,49 @@
 
             form.render()
 
-            table.render({
-                elem: '#tab-simile'
-                , id: 'simile'
-                , skin: 'line'
-                , even: true
-                , cols: [[
-                    { type: 'numbers' }
-                    , { field: 'sentence', title: 'Sentence', minWidth: 150 }
-                    , { field: 'target', title: 'Target', minWidth: 80 }
-                    , { field: 'source', title: 'Source', minWidth: 80 }
-                    , { field: 'adj', title: 'Adj-pro', minWidth: 80 }
-                    , { field: 'verb', title: 'Verb-pro', minWidth: 80 }
-                ]]
-            })
+            // table.render({
+            //     elem: '#tab-simile'
+            //     , id: 'simile'
+            //     , skin: 'line'
+            //     , even: true
+            //     , cols: [[
+            //         { type: 'numbers' }
+            //         , { field: 'sentence', title: 'Sentence', minWidth: 150 }
+            //         , { field: 'target', title: 'Target', minWidth: 80 }
+            //         , { field: 'source', title: 'Source', minWidth: 80 }
+            //         , { field: 'adj', title: 'Adj-pro', minWidth: 80 }
+            //         , { field: 'verb', title: 'Verb-pro', minWidth: 80 }
+            //     ]]
+            //     , done: function(res){
+            //         console.log(res.data)
+            //     }
+            // })
 
             form.on('submit(extract)', function (data) {
-                table.reload('simile', {
-                    url: '/metaphor/simile/'
-                    , method: 'post'
-                    , where: data.field
+                // table.reload('simile', {
+                //     url: '/metaphor/simile/'
+                //     , method: 'post'
+                //     , where: data.field
+                // })
+                var index = layer.load(2)
+                $.ajax({
+                    url: '/metaphor/simile/',
+                    type: 'POST',
+                    data: data.field,
+                    dataType: 'json',
+                    success: (result) => {
+                        console.log(JSON.stringify(result.data))
+                        if (result.code === 0) {
+                            $('#simile-show').empty()
+                            innerHtml = `<p>Sentence: ${result.data.sentence}</p>
+                                         <p>Target: ${result.data.target}</p>
+                                         <p>Source: ${result.data.source}</p>
+                                         <p>Adj-Pro: ${result.data.adj}</p>
+                                         <p>Verb-Pro: ${result.data.verb}</p>`
+                            $('#simile-show').append(innerHtml)
+                        }
+                        layer.close(index)
+                    }
                 })
                 return false
             })
