@@ -14,4 +14,7 @@
 class Util():
     @staticmethod
     def returnData(code, msg, count, data):
+        """
+        ? 定义后端返回数据格式 
+        """
         return {"code": code,  "msg": msg, "count": count,"data": data}
