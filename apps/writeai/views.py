@@ -16,4 +16,4 @@ def writeai(request):
 
         result = Writeai.generate(prefix=prompt, corpus = corpus, length=80)
 
-        return HttpResponse(json.dumps(Util.returnData(0, '', len(result), result)))
+        return HttpResponse(json.dumps(Util.return_data(0, '', len(result), result)))

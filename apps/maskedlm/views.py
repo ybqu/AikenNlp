@@ -16,4 +16,4 @@ def maskedlm(request):
 
         result = Bert_Masked.get_prediction(language, sentence)
 
-        return HttpResponse(json.dumps(Util.returnData(0, '', result[1], result[0])))
+        return HttpResponse(json.dumps(Util.return_data(0, '', result[1], result[0])))

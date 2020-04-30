@@ -1,11 +1,11 @@
+import json
+import sys
 from django.shortcuts import render, HttpResponse
 from .MetaphorModel import getMData
 from .SimileExtraction import getSData
 from .models import Interpretation, Generation, Simile
-import sys
-import json
-
 from util import Util
+
 
 def get_simile(sentence, pred_labels):
     source_labels = {"ss": 1, "sb": 2, "si": 3, "se": 4}
@@ -18,22 +18,37 @@ def get_simile(sentence, pred_labels):
     ap_words = []
     vp_words = []
 
-    for i, s in enumerate(sentence):
-        if pred_labels[i] in source_labels:
-            source_words.append(i)
-        elif pred_labels[i] in target_labels:
-            target_words.append(i)
-        elif pred_labels[i] in ap_labels:
-            ap_words.append(i)
-        elif pred_labels[i] in vp_labels:
-            vp_words.append(i)
-    
+    s = 0
+    while s <= len(pred_labels) - 1:
+        if pred_labels[s] in source_labels:
+            flag = s
+            while pred_labels[s] in source_labels:
+                s += 1
+            source_words.append(sentence[flag:s])
+        elif pred_labels[s] in target_labels:
+            flag = s
+            while pred_labels[s] in target_labels:
+                s += 1
+            target_words.append(sentence[flag:s])
+        elif pred_labels[s] in ap_labels:
+            flag = s
+            while pred_labels[s] in ap_labels:
+                s += 1
+            ap_words.append(sentence[flag:s])
+        elif pred_labels[s] in vp_labels:
+            flag = s
+            while pred_labels[s] in vp_labels:
+                s += 1
+            vp_words.append(sentence[flag:s])
+        else:
+            s += 1
+
     return {
         'sentence' : sentence,
         'target' : target_words,
         'source' : source_words,
-        'adj' : ap_words,
-        'verb' : vp_words
+        'adj_pro' : ap_words,
+        'verb_pro' : vp_words
     }
 
 
@@ -52,7 +67,7 @@ def interpretation(request):
 
         data = Interpretation.interprete(target, source)
 
-        return HttpResponse(json.dumps(Util.returnData(0, '', len(data), data)))
+        return HttpResponse(json.dumps(Util.return_data(0, '', len(data), data)))
 
 def generation(request):
     """ 隐喻生成 """
@@ -67,7 +82,7 @@ def generation(request):
         attribution = request.POST.get('attribution')
 
         data = Generation.generation(target, attribution)
-        return HttpResponse(json.dumps(Util.returnData(0, '', len(data), data)))
+        return HttpResponse(json.dumps(Util.return_data(0, '', len(data), data)))
 
 def simile(request):
     """ 明喻提取 """
@@ -83,4 +98,4 @@ def simile(request):
 
         data = get_simile(sentence, pred_labels)
 
-        return HttpResponse(json.dumps(Util.returnData(0, '', len(data), data)))
+        return HttpResponse(json.dumps(Util.return_data(0, '', len(data), data)))

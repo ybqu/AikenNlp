@@ -13,7 +13,7 @@
 # here put the import lib
 class Util():
     @staticmethod
-    def returnData(code, msg, count, data):
+    def return_data(code, msg, count, data):
         """
         ? 定义后端返回数据格式 
         """

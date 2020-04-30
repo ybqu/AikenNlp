@@ -42,10 +42,9 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <h2>Extracted Simile Components</h2>
-                        <span> -- Here are four simile components</span>
+                        <span> -- Here are simile components</span>
                     </div>
-                    <div class="layui-card-body" id="simile-show">
-                        <!-- <table class="layui-hide" id="tab-simile"></table> -->
+                    <div class="layui-card-body simile-show" id="">
                     </div>
                 </div>
             </div>
@@ -64,30 +63,7 @@
 
             form.render()
 
-            // table.render({
-            //     elem: '#tab-simile'
-            //     , id: 'simile'
-            //     , skin: 'line'
-            //     , even: true
-            //     , cols: [[
-            //         { type: 'numbers' }
-            //         , { field: 'sentence', title: 'Sentence', minWidth: 150 }
-            //         , { field: 'target', title: 'Target', minWidth: 80 }
-            //         , { field: 'source', title: 'Source', minWidth: 80 }
-            //         , { field: 'adj', title: 'Adj-pro', minWidth: 80 }
-            //         , { field: 'verb', title: 'Verb-pro', minWidth: 80 }
-            //     ]]
-            //     , done: function(res){
-            //         console.log(res.data)
-            //     }
-            // })
-
             form.on('submit(extract)', function (data) {
-                // table.reload('simile', {
-                //     url: '/metaphor/simile/'
-                //     , method: 'post'
-                //     , where: data.field
-                // })
                 var index = layer.load(2)
                 $.ajax({
                     url: '/metaphor/simile/',
@@ -97,19 +73,68 @@
                     success: (result) => {
                         console.log(JSON.stringify(result.data))
                         if (result.code === 0) {
-                            $('#simile-show').empty()
-                            innerHtml = `<p>Sentence: ${result.data.sentence}</p>
-                                         <p>Target: ${result.data.target}</p>
-                                         <p>Source: ${result.data.source}</p>
-                                         <p>Adj-Pro: ${result.data.adj}</p>
-                                         <p>Verb-Pro: ${result.data.verb}</p>`
-                            $('#simile-show').append(innerHtml)
+                            $('.simile-show').empty()
+                            innerHtml = getInnerHtml(result.data)
+                            $('.simile-show').append(innerHtml)
                         }
                         layer.close(index)
                     }
                 })
                 return false
             })
+
+            window.getInnerHtml = function (data) {
+                sentence = data.sentence // 句子
+                delete data.sentence
+
+                var words = new Array() // 目标词
+                var vocab = new Array() // 目标词: 标签
+                var index = new Array() // 目标词划分
+                var subsens = new Array() // 划分后的句子
+
+                for (k in data) {
+                    words = words.concat(data[k])
+
+                    for (w in data[k]) {
+                        vocab[data[k][w]] = k
+                    }
+                }
+
+                index.push(0)
+                for (w in words) {
+                    index.push(sentence.indexOf(words[w]))
+                    index.push(sentence.indexOf(words[w]) + words[w].length)
+                }
+                index.push(sentence.length)
+
+                index = index.sort((a, b) => {
+                    return a - b
+                })
+
+                for (var i = 0; i < index.length - 1; i++) {
+                    s = sentence.substring(index[i], index[i + 1])
+                    if (vocab[s] == undefined) {
+                        subsens[s] = 'non-metaphor'
+                    } else {
+                        subsens[s] = vocab[s]
+                    }
+                }
+
+                innerHtmlSen = `<table><tr>`
+                innerHtmlLabel = `<tr>`
+                for (s in subsens) {
+                    if (subsens[s] == 'non-metaphor') {
+                        innerHtmlSen += `<td class="${subsens[s]}">${s}</td>`
+                        innerHtmlLabel += `<td></td>`
+                    } else {
+                        innerHtmlSen += `<td class="${subsens[s]} labels"><b>${s}</b></td>`
+                        innerHtmlLabel += `<td class="${subsens[s]}"><b>${subsens[s]}</b></td>`
+                    }
+                }
+                innerHtmlSen += `</tr>`
+                innerHtmlLabel += `</tr>`
+                return innerHtmlSen + innerHtmlLabel + `</table>`
+            }
         })
     </script>
 </body>

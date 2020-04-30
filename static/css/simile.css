@@ -30,3 +30,25 @@ body {
     line-height: 25px;
     height: 50px;
 }
+
+table {
+    text-align: center;
+}
+
+.labels {
+    margin: 3px;
+    border: 1px solid #000;
+}
+
+.target {
+    color: 	#FF0000;
+}
+.source {
+    color: #6495ED;
+}
+.adj_pro {
+    color: #7B68EE;
+}
+.verb_pro {
+    color: #00EE00;
+}
